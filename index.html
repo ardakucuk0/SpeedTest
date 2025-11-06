@@ -7,9 +7,24 @@
 </head>
 <body>
   <h1>Speed Test</h1>
-  <p>Click the button to test ping, download, and upload speed.</p>
   <button id="startBtn">Start Test</button>
-  <pre id="output"></pre>
+
+  <div class="gauges">
+    <div class="gauge hidden" id="pingGauge">
+      <h2>Ping</h2>
+      <div class="value" id="pingValue">-- ms</div>
+    </div>
+    <div class="gauge hidden" id="downloadGauge">
+      <h2>Download</h2>
+      <div class="value" id="downloadValue">-- Mbps</div>
+    </div>
+    <div class="gauge hidden" id="uploadGauge">
+      <h2>Upload</h2>
+      <div class="value" id="uploadValue">-- Mbps</div>
+    </div>
+  </div>
+
+  <pre id="summary"></pre>
   <script src="script.js"></script>
 </body>
 </html>
