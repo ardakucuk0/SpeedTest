@@ -1,6 +1,14 @@
 <?php
-$size = 100 * 1024 * 1024; // 100MB
 header("Content-Type: application/octet-stream");
-header("Content-Length: $size");
-echo str_repeat("A", $size);
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+$chunk = str_repeat("A", 1024 * 1024); // 1 MB
+$start = microtime(true);
+
+while ((microtime(true) - $start) < 25) { // stream for ~25 seconds
+    echo $chunk;
+    flush();
+}
 ?>
