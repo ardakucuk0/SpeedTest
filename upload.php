@@ -1,4 +1,4 @@
 <?php
-$bytes = file_get_contents("php://input");
-echo json_encode(["bytesReceived" => strlen($bytes)]);
+// Read and discard the incoming data
+while (fread(STDIN ?? fopen("php://input", "r"), 8192)) {}
 ?>
