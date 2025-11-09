@@ -1,0 +1,41 @@
+/ rocket.css /
+
+body::before {
+  content: "🚀";
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 60px;
+  animation: rocketFloat 3s ease-in-out infinite;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+
+@keyframes rocketFloat {
+  0%   { transform: translate(-50%, 0);   }
+  50%  { transform: translate(-50%, -20px); }
+  100% { transform: translate(-50%, 0);   }
+}
+
+
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  width: 6px;
+  height: 60px;
+  background: linear-gradient(to top, rgba(56,189,248,0.5), transparent);
+  transform: translateX(-50%);
+  border-radius: 999px;
+  animation: trailPulse 1.5s ease-in-out infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes trailPulse {
+  0%, 100% { opacity: 0.4; height: 50px; }
+  50%      { opacity: 0.8; height: 70px; }
+}
