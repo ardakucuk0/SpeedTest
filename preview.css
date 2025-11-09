@@ -1,0 +1,167 @@
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at 30% 20%, #0f172a 0%, #020617 80%);
+  color: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px;
+}
+
+/* Main container (any direct child) */
+body > * {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 20px;
+  padding: 32px 24px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  font-size: 2.6rem;
+  font-weight: 600;
+  background: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.2rem;
+}
+
+/* Subtitle if any */
+h1 + p {
+  text-align: center;
+  color: #94a3b8;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+/* Metric boxes */
+.metrics,
+div[role="group"],
+section {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+/* Each metric card gets a gradient color */
+.metrics > *,
+div[class*="card"],
+div[class*="Metric"],
+div[class*="Box"] {
+  flex: 1 1 150px;
+  min-width: 150px;
+  padding: 18px 14px;
+  border-radius: 18px;
+  color: #f8fafc;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Ping */
+.metrics > *:nth-child(1),
+div[class*="card"]:nth-child(1) {
+  background: linear-gradient(135deg, #22d3ee, #2563eb);
+}
+
+/* Download */
+.metrics > *:nth-child(2),
+div[class*="card"]:nth-child(2) {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+/* Upload */
+.metrics > *:nth-child(3),
+div[class*="card"]:nth-child(3) {
+  background: linear-gradient(135deg, #10b981, #84cc16);
+}
+
+.metrics > *:hover,
+div[class*="card"]:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.9);
+}
+
+/* Labels & values */
+.metrics span:first-child,
+div[class*="label"] {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  opacity: 0.9;
+  margin-bottom: 4px;
+}
+
+.metrics span:last-child,
+div[class*="value"] {
+  display: block;
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+/* Button */
+button,
+input[type="button"],
+input[type="submit"] {
+  display: block;
+  margin: 0 auto 24px;
+  padding: 12px 42px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  color: #f9fafb;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 14px 40px rgba(79, 70, 229, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 55px rgba(99, 102, 241, 0.55);
+}
+
+button:active,
+input[type="button"]:active,
+input[type="submit"]:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.9);
+}
+
+/* Status text */
+small,
+footer {
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 8px;
+}
