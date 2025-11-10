@@ -19,10 +19,9 @@ async function runTest() {
   downloadGauge.classList.add('hidden');
   uploadGauge.classList.add('hidden');
 
-  // Ping Test (10s)
-  summary.textContent = `Running Ping Test...\n`;
+  // Ping Test (3s)
   let pingTimes = [];
-  const pingEnd = Date.now() + 10000;
+  const pingEnd = Date.now() + 3000;
   while (Date.now() < pingEnd) {
     const start = performance.now();
     await fetch('ping.php');
@@ -30,31 +29,32 @@ async function runTest() {
     const ping = end - start;
     pingTimes.push(ping);
     pingValue.textContent = `${ping.toFixed(1)} ms`;
-    summary.textContent = `Running Ping Test...\nCurrent: ${ping.toFixed(1)} ms`;
+    summary.textContent = `Ping: ${ping.toFixed(1)} ms`;
     await new Promise(r => setTimeout(r, 100));
   }
   const avgPing = pingTimes.reduce((a, b) => a + b, 0) / pingTimes.length;
-  summary.textContent = `Ping Test Complete: ${avgPing.toFixed(1)} ms\nRunning Download Test...\n`;
+  summary.textContent = `Ping test complete. Average: ${avgPing.toFixed(1)} ms\n`;
 
-  // Download Test (20s)
+  // Download Test (2s)
   downloadGauge.classList.remove('hidden');
-  const avgDownloadMbps = await runDownloadTest();
+  const { avgMbps: avgDownloadMbps, totalMB: downloadMB } = await runDownloadTest();
 
-  // Upload Test (20s)
+  // Upload Test (2s)
   uploadGauge.classList.remove('hidden');
-  summary.textContent = `Download Test Complete: ${avgDownloadMbps.toFixed(2)} Mbps\nRunning Upload Test...\n`;
-  const avgUploadMbps = await runUploadTest();
+  const { avgMbps: avgUploadMbps, totalMB: uploadMB } = await runUploadTest();
 
-  // Final Summary
-  summary.textContent =
-    `Final Results:\n` +
-    `Ping: ${avgPing.toFixed(1)} ms (avg over ${pingTimes.length} pings)\n` +
-    `Download: ${avgDownloadMbps.toFixed(2)} Mbps\n` +
-    `Upload: ${avgUploadMbps.toFixed(2)} Mbps`;
+// Final Summary
+const totalDataMB = downloadMB + uploadMB;
+summary.textContent =
+  `✅ Test Complete\n\n` +
+  `📡 Ping: ${avgPing.toFixed(1)} ms\n` +
+  `⬇️ Download: ${avgDownloadMbps.toFixed(2)} Mbps (${downloadMB.toFixed(2)} MB received)\n` +
+  `⬆️ Upload: ${avgUploadMbps.toFixed(2)} Mbps (${uploadMB.toFixed(2)} MB sent)\n` +
+  `📊 Total Data Used: ${(totalDataMB).toFixed(2)} MB`;
 }
 
 async function runDownloadTest() {
-  const duration = 20000;
+  const duration = 2000;
   const startTime = Date.now();
   let bytesReceived = 0;
 
@@ -68,17 +68,19 @@ async function runDownloadTest() {
       bytesReceived += value.length;
       const elapsed = (Date.now() - startTime) / 1000;
       const speedMbps = (bytesReceived * 8) / (elapsed * 1024 * 1024);
-      document.getElementById('downloadValue').textContent = `${speedMbps.toFixed(2)} Mbps`;
-      document.getElementById('summary').textContent = `Download Test...\nCurrent: ${speedMbps.toFixed(2)} Mbps`;
+      downloadValue.textContent = `${speedMbps.toFixed(2)} Mbps`;
+      summary.textContent = `Download: ${speedMbps.toFixed(2)} Mbps`;
     }
   }
 
   const elapsed = (Date.now() - startTime) / 1000;
-  return (bytesReceived * 8) / (elapsed * 1024 * 1024);
+  const avgMbps = (bytesReceived * 8) / (elapsed * 1024 * 1024);
+  const totalMB = bytesReceived / (1024 * 1024);
+  return { avgMbps, totalMB };
 }
 
 async function runUploadTest() {
-  const duration = 20000;
+  const duration = 2000;
   const startTime = Date.now();
   let uploadedBytes = 0;
 
@@ -94,10 +96,12 @@ async function runUploadTest() {
     uploadedBytes += chunkSize * promises.length;
     const elapsed = (Date.now() - startTime) / 1000;
     const speedMbps = (uploadedBytes * 8) / (elapsed * 1024 * 1024);
-    document.getElementById('uploadValue').textContent = `${speedMbps.toFixed(2)} Mbps`;
-    document.getElementById('summary').textContent = `Upload Test...\nCurrent: ${speedMbps.toFixed(2)} Mbps`;
+    uploadValue.textContent = `${speedMbps.toFixed(2)} Mbps`;
+    summary.textContent = `Upload: ${speedMbps.toFixed(2)} Mbps`;
   }
 
   const elapsed = (Date.now() - startTime) / 1000;
-  return (uploadedBytes * 8) / (elapsed * 1024 * 1024);
+  const avgMbps = (uploadedBytes * 8) / (elapsed * 1024 * 1024);
+  const totalMB = uploadedBytes / (1024 * 1024);
+  return { avgMbps, totalMB };
 }
