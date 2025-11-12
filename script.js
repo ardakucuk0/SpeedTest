@@ -19,38 +19,61 @@ async function runTest() {
   downloadGauge.classList.add('hidden');
   uploadGauge.classList.add('hidden');
 
-  // Ping Test (3s)
-  let pingTimes = [];
-  const pingEnd = Date.now() + 3000;
-  while (Date.now() < pingEnd) {
-    const start = performance.now();
-    await fetch('ping.php');
-    const end = performance.now();
-    const ping = end - start;
-    pingTimes.push(ping);
-    pingValue.textContent = `${ping.toFixed(1)} ms`;
-    summary.textContent = `Ping: ${ping.toFixed(1)} ms`;
-    await new Promise(r => setTimeout(r, 100));
-  }
-  const avgPing = pingTimes.reduce((a, b) => a + b, 0) / pingTimes.length;
+  // Ping Test via WebSocket
+  const avgPing = await runWebSocketPing();
   summary.textContent = `Ping test complete. Average: ${avgPing.toFixed(1)} ms\n`;
 
-  // Download Test (2s)
+  // Download Test
   downloadGauge.classList.remove('hidden');
   const { avgMbps: avgDownloadMbps, totalMB: downloadMB } = await runDownloadTest();
 
-  // Upload Test (2s)
+  // Upload Test
   uploadGauge.classList.remove('hidden');
   const { avgMbps: avgUploadMbps, totalMB: uploadMB } = await runUploadTest();
 
-// Final Summary
-const totalDataMB = downloadMB + uploadMB;
-summary.textContent =
-  `✅ Test Complete\n\n` +
-  `📡 Ping: ${avgPing.toFixed(1)} ms\n` +
-  `⬇️ Download: ${avgDownloadMbps.toFixed(2)} Mbps (${downloadMB.toFixed(2)} MB received)\n` +
-  `⬆️ Upload: ${avgUploadMbps.toFixed(2)} Mbps (${uploadMB.toFixed(2)} MB sent)\n` +
-  `📊 Total Data Used: ${(totalDataMB).toFixed(2)} MB`;
+  // Final Summary
+  const totalDataMB = downloadMB + uploadMB;
+  summary.textContent =
+    `✅ Test Complete\n\n` +
+    `📡 Ping: ${avgPing.toFixed(1)} ms\n` +
+    `⬇️ Download: ${avgDownloadMbps.toFixed(2)} Mbps (${downloadMB.toFixed(2)} MB received)\n` +
+    `⬆️ Upload: ${avgUploadMbps.toFixed(2)} Mbps (${uploadMB.toFixed(2)} MB sent)\n` +
+    `📊 Total Data Used: ${totalDataMB.toFixed(2)} MB`;
+}
+
+async function runWebSocketPing() {
+  return new Promise((resolve) => {
+    const pingTimes = [];
+    const ws = new WebSocket('wss://yourserver/ws'); // Replace with your actual WebSocket server URL
+
+    ws.onopen = () => {
+      let count = 0;
+      const pingLoop = () => {
+        const start = performance.now();
+        ws.send('ping');
+        ws.onmessage = () => {
+          const end = performance.now();
+          const ping = end - start;
+          pingTimes.push(ping);
+          document.getElementById('pingValue').textContent = `${ping.toFixed(1)} ms`;
+          document.getElementById('summary').textContent = `Ping: ${ping.toFixed(1)} ms`;
+          count++;
+          if (count < 10) {
+            setTimeout(pingLoop, 200);
+          } else {
+            ws.close();
+            const avgPing = pingTimes.reduce((a, b) => a + b, 0) / pingTimes.length;
+            resolve(avgPing);
+          }
+        };
+      };
+      pingLoop();
+    };
+
+    ws.onerror = () => {
+      resolve(0); // fallback if WebSocket fails
+    };
+  });
 }
 
 async function runDownloadTest() {
@@ -68,8 +91,8 @@ async function runDownloadTest() {
       bytesReceived += value.length;
       const elapsed = (Date.now() - startTime) / 1000;
       const speedMbps = (bytesReceived * 8) / (elapsed * 1024 * 1024);
-      downloadValue.textContent = `${speedMbps.toFixed(2)} Mbps`;
-      summary.textContent = `Download: ${speedMbps.toFixed(2)} Mbps`;
+      document.getElementById('downloadValue').textContent = `${speedMbps.toFixed(2)} Mbps`;
+      document.getElementById('summary').textContent = `Download: ${speedMbps.toFixed(2)} Mbps`;
     }
   }
 
@@ -84,7 +107,7 @@ async function runUploadTest() {
   const startTime = Date.now();
   let uploadedBytes = 0;
 
-  const chunkSize = 2 * 1024 * 1024; // 2 MB
+  const chunkSize = 2 * 1024 * 1024;
   const chunk = new Blob([new Uint8Array(chunkSize)]);
 
   while (Date.now() - startTime < duration) {
@@ -96,8 +119,8 @@ async function runUploadTest() {
     uploadedBytes += chunkSize * promises.length;
     const elapsed = (Date.now() - startTime) / 1000;
     const speedMbps = (uploadedBytes * 8) / (elapsed * 1024 * 1024);
-    uploadValue.textContent = `${speedMbps.toFixed(2)} Mbps`;
-    summary.textContent = `Upload: ${speedMbps.toFixed(2)} Mbps`;
+    document.getElementById('uploadValue').textContent = `${speedMbps.toFixed(2)} Mbps`;
+    document.getElementById('summary').textContent = `Upload: ${speedMbps.toFixed(2)} Mbps`;
   }
 
   const elapsed = (Date.now() - startTime) / 1000;
