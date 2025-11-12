@@ -1,10 +1,4 @@
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html,
 body {
   margin: 0;
@@ -22,38 +16,35 @@ body {
   padding: 40px 16px;
 }
 
-/* Main container (any direct child) */
-body > * {
+body > {
   width: 100%;
   max-width: 900px;
   background: rgba(15, 23, 42, 0.9);
-  border-radius: 20px;
-  padding: 32px 24px;
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.9);
-  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 18px;
+  padding: 28px 22px;
+  box-shadow: 0 16px 56px rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(99, 102, 241, 0.22);
 }
 
-/* Title */
 h1 {
   text-align: center;
-  font-size: 2.6rem;
-  font-weight: 600;
+  font-size: 2.4rem;
+  font-weight: 700;
   background: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6);
   -webkit-background-clip: text;
   color: transparent;
-  letter-spacing: 0.05em;
-  margin-bottom: 1.2rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
 }
 
-/* Subtitle if any */
+
 h1 + p {
   text-align: center;
   color: #94a3b8;
-  margin-top: 0;
-  margin-bottom: 2rem;
+  margin: 0 0 1.6rem;
 }
 
-/* Metric boxes */
+
 .metrics,
 div[role="group"],
 section {
@@ -61,85 +52,125 @@ section {
   gap: 18px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
-/* Each metric card gets a gradient color */
+
 .metrics > *,
 div[class*="card"],
 div[class*="Metric"],
 div[class*="Box"] {
-  flex: 1 1 150px;
-  min-width: 150px;
-  padding: 18px 14px;
-  border-radius: 18px;
-  color: #f8fafc;
-  font-weight: 500;
+  position: relative;
+  flex: 1 1 210px;
+  min-width: 210px;
+  height: 180px;
+  border-radius: 16px;
+  background: #0b1220;
+  border: 1px solid rgba(148, 163, 253, 0.12);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.65);
   text-align: center;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+  padding: 14px 12px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-/* Ping */
+
 .metrics > *:nth-child(1),
-div[class*="card"]:nth-child(1) {
-  background: linear-gradient(135deg, #22d3ee, #2563eb);
-}
-
-/* Download */
+div[class*="card"]:nth-child(1) { --c1:#22d3ee; --c2:#2563eb; }   /* Ping */
 .metrics > *:nth-child(2),
-div[class*="card"]:nth-child(2) {
-  background: linear-gradient(135deg, #a855f7, #ec4899);
-}
-
-/* Upload */
+div[class*="card"]:nth-child(2) { --c1:#a855f7; --c2:#ec4899; }   /* Download */
 .metrics > *:nth-child(3),
-div[class*="card"]:nth-child(3) {
-  background: linear-gradient(135deg, #10b981, #84cc16);
-}
+div[class*="card"]:nth-child(3) { --c1:#10b981; --c2:#84cc16; }   /* Upload */
 
 .metrics > *:hover,
 div[class*="card"]:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.9);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.8);
+  border-color: rgba(148, 163, 253, 0.28);
 }
 
-/* Labels & values */
+
+.metrics > * > *,
+div[class*="card"] > * {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+
+.metrics > *::before,
+div[class*="card"]::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background:
+    conic-gradient(var(--c1, #22d3ee) 0 60deg,
+                   var(--c2, #2563eb) 60deg 180deg,
+                   rgba(255,255,255,0.06) 180deg 360deg);
+  /* hollow center to look like a gauge */
+  mask: radial-gradient(circle 64px at 50% 60%, transparent 63px, #000 64px);
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.45));
+  opacity: 0.95;
+}
+
+
+.metrics > *::after,
+div[class*="card"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 74px;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #0b1220;
+  border: 2px solid rgba(255,255,255,0.15);
+}
+
+
 .metrics span:first-child,
 div[class*="label"] {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  opacity: 0.9;
-  margin-bottom: 4px;
+  letter-spacing: 0.14em;
+  color: rgba(241,245,249,0.85);
+  opacity: 0.85;
+  margin-top: 98px;          
+  margin-bottom: 2px;
 }
 
 .metrics span:last-child,
 div[class*="value"] {
   display: block;
-  font-size: 1.7rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f8fafc;
 }
 
-/* Button */
 button,
 input[type="button"],
 input[type="submit"] {
   display: block;
-  margin: 0 auto 24px;
-  padding: 12px 42px;
+  margin: 0 auto 22px;
+  padding: 11px 40px;
   border-radius: 999px;
   border: none;
   background: linear-gradient(to right, #6366f1, #8b5cf6);
   color: #f9fafb;
   font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
   box-shadow: 0 14px 40px rgba(79, 70, 229, 0.45);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 button:hover,
@@ -147,16 +178,16 @@ input[type="button"]:hover,
 input[type="submit"]:hover {
   transform: translateY(-2px);
   box-shadow: 0 20px 55px rgba(99, 102, 241, 0.55);
+  filter: saturate(1.05);
 }
 
 button:active,
 input[type="button"]:active,
 input[type="submit"]:active {
-  transform: translateY(0) scale(0.97);
+  transform: translateY(0) scale(0.98);
   box-shadow: 0 8px 25px rgba(15, 23, 42, 0.9);
 }
 
-/* Status text */
 small,
 footer {
   display: block;
