@@ -1,3 +1,5 @@
+@import url("./preview.css");
+
 body {
   font-family: Arial, sans-serif;
   text-align: center;
@@ -49,4 +51,5 @@ pre {
 
 .hidden {
   display: none;
+
 }
