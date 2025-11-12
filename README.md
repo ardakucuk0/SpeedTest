@@ -12,7 +12,7 @@ It measures **Ping**, **Download speed**, and **Upload speed**, with real‑time
 - ⬆️ **Upload test** using generated blobs  
 - 🎛️ **Animated gauges** for live speed visualization  
 - 📊 **Summary panel** with ping, speeds, duration, and data usage  
-- 🌗 **Responsive design** with light/dark mode support  
+
 
 ---
 
@@ -101,4 +101,13 @@ To run the project locally on a Windows PC:
    - Open:  
      ```
      http://localhost/
-     ```  
+     ```
+
+     ## 📘 Lessons Learned
+
+We first deployed an earlier version of our speed test on https://speedtest-ardalara2025.fly.dev, but it did not perform as expected. The machines were hosted in the United States while we were testing from Türkiye, which caused high latency and very low measured speeds. In addition, the CSS-based interface broke during deployment and displayed inconsistently compared to our local version.
+
+For the version we are submitting now, we addressed these issues by deploying servers closer to our region, improving test logic with parallel data streams and larger payloads, and rebuilding the interface with cleaner HTML and stable CSS for consistent performance and appearance.
+
+---
+
