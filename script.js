@@ -116,9 +116,9 @@ function startStop() {
         document.getElementById("sumPing").textContent =
           "Ping: " + format(finalData.pingStatus) + " ms";
         document.getElementById("sumDownload").textContent =
-          "Download Speed: " + format(finalData.dlStatus) + " Mbit/s";
+          "Download Speed: " + format(finalData.dlStatus) + " Mbps";
         document.getElementById("sumUpload").textContent =
-          "Upload Speed: " + format(finalData.ulStatus) + " Mbit/s";
+          "Upload Speed: " + format(finalData.ulStatus) + " Mbps";
         document.getElementById("sumData").textContent =
           "Duration: " + durationSec.toFixed(1) + " s | " +
           "Data Used: Download " + dlMB.toFixed(1) + " MB, " +
