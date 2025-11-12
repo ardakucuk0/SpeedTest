@@ -1,26 +1,25 @@
-```markdown
-# SpeedTest Project
+# ⚡ SpeedTest Project
 
-A lightweight browser‑based internet speed test tool built with **HTML**, **JavaScript**, and **PHP**.  
-It measures **ping**, **download speed**, and **upload speed**, and displays results in real time with animated gauges and a summary panel.
+A lightweight **browser‑based Internet speed test** built with **HTML**, **JavaScript**, and **PHP**.  
+It measures **Ping**, **Download speed**, and **Upload speed**, with real‑time gauges and a summary panel.
 
 ---
 
-## 🚀 Features
+## ✨ Features
 
-- **Ping measurement** with jitter calculation
-- **Download test** using randomized data streams
-- **Upload test** using generated blobs
-- **Live gauges** for download and upload speeds
-- **Summary panel** showing ping, speeds, duration, and total data transferred
-- **Responsive design** with light/dark mode support
+- 📡 **Ping measurement** with jitter calculation  
+- ⬇️ **Download test** using randomized data streams  
+- ⬆️ **Upload test** using generated blobs  
+- 🎛️ **Animated gauges** for live speed visualization  
+- 📊 **Summary panel** with ping, speeds, duration, and data usage  
+- 🌗 **Responsive design** with light/dark mode support  
 
 ---
 
 ## 📂 Project Structure
 
 ```
-project-root/
+.
 ├── index.html             # Main UI page
 ├── script.js              # UI orchestration, gauges, summary logic
 ├── speedtest.js           # Web Worker: ping, download, upload tests
@@ -33,31 +32,32 @@ project-root/
 
 ## ⚙️ Requirements
 
-- A local or remote web server with **PHP** enabled (Apache, Nginx, etc.)
+- Local or remote web server with **PHP** enabled (Apache, Nginx, etc.)
 - Modern browser (Chrome recommended) with Web Worker support
 - Network access to the server hosting the PHP endpoints
 
 ---
 
-## 🔧 Setup Instructions
+## 🚀 Setup
 
-1. Place all files in your web server’s document root (or a subdirectory).
-2. Ensure the `php/` folder is accessible and PHP is enabled.
-3. Open `index.html` in your browser via the server URL, e.g.:
-
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/yourusername/speedtest-project.git
+   ```
+2. Place files in your web server’s document root (or a subdirectory).
+3. Ensure the `php/` folder is accessible and PHP is enabled.
+4. Open in browser:
    ```
    http://localhost/index.html
    ```
-
-4. The app will initialize automatically and show the **Start** button.
 
 ---
 
 ## 🖥️ Usage
 
-- Click **Start** to begin the test.
-- The app runs **Download → Ping → Upload** in sequence.
-- Gauges animate live during the test.
+- Click **Start** to begin the test.  
+- The app runs **Download → Ping → Upload** in sequence.  
+- Gauges animate live during the test.  
 - When finished, the **Summary** panel displays:
   - Ping (ms)
   - Download speed (Mbit/s)
@@ -66,3 +66,12 @@ project-root/
   - Data used (MB for download, upload, and total)
 
 - Click **Abort** while running to stop the test early.
+
+---
+
+## ⚙️ Customization
+
+- **Server URLs** → Edit `localhostServer` in `script.js`  
+- **Test order** → Change `settings.test_order` in `speedtest.js` (default `"DPU"`)  
+- **Duration** → Modify `time_dl_max` and `time_ul_max` in `settings`  
+- **Styling** → Edit CSS inside `index.html`  
