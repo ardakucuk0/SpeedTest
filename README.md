@@ -1,80 +1,68 @@
-# 🌐 Speed Test Web App
+```markdown
+# SpeedTest Project
 
-A lightweight browser-based internet speed test built with HTML, CSS, JavaScript, and PHP. It measures your network's ping latency, download speed, and upload speed in real time — no external dependencies or APIs required.
+A lightweight browser‑based internet speed test tool built with **HTML**, **JavaScript**, and **PHP**.  
+It measures **ping**, **download speed**, and **upload speed**, and displays results in real time with animated gauges and a summary panel.
 
 ---
 
 ## 🚀 Features
 
-- 📡 **Ping Test**: Measures round-trip latency to the server
-- ⬇️ **Download Test**: Streams data from the server to measure throughput
-- ⬆️ **Upload Test**: Sends data to the server to measure upload speed
-- 📊 **Live Gauges**: Real-time updates for each metric
-- ✅ **Summary Panel**: Displays final results and total data used
+- **Ping measurement** with jitter calculation
+- **Download test** using randomized data streams
+- **Upload test** using generated blobs
+- **Live gauges** for download and upload speeds
+- **Summary panel** showing ping, speeds, duration, and total data transferred
+- **Responsive design** with light/dark mode support
 
 ---
 
-## 🖥️ System Requirements
+## 📂 Project Structure
 
-- OS: Windows, macOS, or Linux
-- Browser: Any modern browser (Chrome, Firefox, Edge, Safari)
-- Local Server: [XAMPP](https://www.apachefriends.org/) or any PHP-enabled web server
-- PHP: Version 7.0 or higher
-
----
-
-## 📦 Installation
-
-1. **Install XAMPP** (or similar local server)
-2. **Clone or download** this repository
-3. **Place all files** into your `htdocs` directory (e.g., `C:\xampp\htdocs/speedtest`)
-4. Start **Apache** from the XAMPP control panel
-5. Visit `http://localhost/speedtest` in your browser
+```
+project-root/
+├── index.html             # Main UI page
+├── script.js              # UI orchestration, gauges, summary logic
+├── speedtest.js           # Web Worker: ping, download, upload tests
+└── php/
+    ├── pingsetc.php       # Ping endpoint (responds quickly, no cache)
+    └── upload_download.php# Download endpoint (streams random data)
+```
 
 ---
 
-## ▶️ Usage
+## ⚙️ Requirements
 
-1. Click **Start Test**
-2. Watch the gauges update in real time:
-   - Ping runs for 3 seconds
-   - Download runs for 2 seconds
-   - Upload runs for 2 seconds
-3. View the final summary including:
-   - Average ping
-   - Download and upload speeds
-   - Total data transferred
+- A local or remote web server with **PHP** enabled (Apache, Nginx, etc.)
+- Modern browser (Chrome recommended) with Web Worker support
+- Network access to the server hosting the PHP endpoints
 
 ---
 
-## 📁 File Overview
+## 🔧 Setup Instructions
 
-| File           | Purpose                                                                 |
-|----------------|-------------------------------------------------------------------------|
-| `index.html`   | Main UI layout and structure                                            |
-| `style.css`    | Styling for gauges, buttons, and summary panel                          |
-| `script.js`    | Core logic for running ping/download/upload tests and updating the UI   |
-| `ping.php`     | Responds to ping requests to measure latency                            |
-| `download.php` | Streams dummy data to simulate download speed                           |
-| `upload.php`   | Accepts POST data to simulate upload speed                              |
+1. Place all files in your web server’s document root (or a subdirectory).
+2. Ensure the `php/` folder is accessible and PHP is enabled.
+3. Open `index.html` in your browser via the server URL, e.g.:
+
+   ```
+   http://localhost/index.html
+   ```
+
+4. The app will initialize automatically and show the **Start** button.
 
 ---
 
-## 📐 How It Works
+## 🖥️ Usage
 
-### Ping Test
-- Sends repeated requests to `ping.php`
-- Measures round-trip time using `performance.now()`
-- Averages results over 3 seconds
+- Click **Start** to begin the test.
+- The app runs **Download → Ping → Upload** in sequence.
+- Gauges animate live during the test.
+- When finished, the **Summary** panel displays:
+  - Ping (ms)
+  - Download speed (Mbit/s)
+  - Upload speed (Mbit/s)
+  - Duration (seconds)
+  - Data used (MB for download, upload, and total)
 
-### Download Test
-- Fetches data from `download.php` using a stream reader
-- Measures bytes received over time
-- Calculates Mbps using:  
-  `Mbps = (bytesReceived * 8) / (elapsedSeconds * 1024 * 1024)`
-
-### Upload Test
-- Sends 2MB chunks to `upload.php` via POST
-- Measures bytes sent over time
-- Calculates Mbps using:  
-  `Mbps = (uploadedBytes * 8) / (elapsedSeconds * 1024 * 1024)`
+- Click **Abort** while running to stop the test early.
